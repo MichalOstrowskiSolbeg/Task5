@@ -132,8 +132,8 @@ h2 {
 }
 
 main {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 .table-list {
@@ -156,7 +156,7 @@ main {
 
         .table-list th,
         .table-list td {
-            padding: 0.5rem 1rem;
+            padding: 0.25rem 1rem;
         }
 
         .table-list th {
@@ -203,7 +203,7 @@ main {
 .details-button,
 .add-to-cart-button {
     display: inline-block;
-    width: 180px;
+    width: 150px;
     stroke-width: 0;
     padding: 0.6rem 0.8rem;
     margin-left: 0.75rem;

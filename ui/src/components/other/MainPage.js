@@ -4,6 +4,7 @@ function MainPage() {
             <h1>
                 Welcome
             </h1>
+            <p></p>
         </main>
     )
 }

@@ -3,28 +3,34 @@ import React, { useEffect, useState } from 'react';
 
 function ProductListTable(props) {
     const data = props.data
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState(new Map());
 
     useEffect(() => {
-        const stored = JSON.parse(localStorage.getItem('cart2'));
+        const stored = (localStorage.getItem('cart2'));
         if (stored) {
-            setProducts(stored);
+            setProducts(new Map(JSON.parse(stored)));
         }
     }, []);
 
     function addProduct(item) {
-        console.log(products)
-        if (!products.some(e => e.Name === item.Name && e.Id === item.Id)) {
-            products.push(item)
-            setProducts(products);
+        var isInMap = false;
+        for (const [key, value] of (products)) {
+            if (key.Id === item.Id) {
+                isInMap = true;
+            }
+        }
 
-            //console.log(products)
-            localStorage.setItem('cart2', JSON.stringify(products));
 
-            props.updateCount(products.length);
+        if (!isInMap) {
+            products.set(item, 1)
+            setProducts(new Map(products));
+
+            localStorage.setItem('cart2', JSON.stringify(Array.from(products)));
+            props.updateCount(products.size);
+        } else {
+            console.log("is in map")
         }
     }
-
 
     return (
         <>
@@ -49,7 +55,6 @@ function ProductListTable(props) {
                                 <ul className="list-actions">
                                     <li><Link to={`/products/${x.Id}`}
                                         className="details-button">DETAILS</Link></li>
-
                                     <li><button className="add-to-cart-button" onClick={() => addProduct(x)}>ADD TO CART</button></li>
                                 </ul>
                             </td>

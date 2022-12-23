@@ -23,7 +23,7 @@ namespace ServiceLayer.Services
         public UserService(IUserRepository user, IConfiguration configuration) 
         {
             _reposistory= user;
-            _configuration= configuration;
+            _configuration = configuration;
         }
 
         public string Login(LoginRequest request)
@@ -54,6 +54,7 @@ namespace ServiceLayer.Services
             JwtSecurityToken token = new JwtSecurityToken(
                 issuer: "https://localhost:5001",
                 audience: "https://localhost:5001",
+                claims: new List<Claim>(),
                 expires: DateTime.Now.AddHours(2),
                 signingCredentials: creds
             );
