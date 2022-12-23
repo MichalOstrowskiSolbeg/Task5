@@ -24,9 +24,22 @@ Project uses EF to connect to MsSql database.
 Models in RepositoryLayer were created by scaffolding DbContext. 
 
 Validation was made with FluentValidation library which could help me separate request objects from validation.
-I'm using Automapper to map DTOs
 
-Authorization implemented with JWT.
+I used Automapper to map DTOs.
+
+Users' passwords stored in database are hashed using Pbkdf2 HMACSHA_512 algorithm with 20000 iterations. 
+To decrease chance of passwords getting broken I added random string "salt" which is hashed together with password. 
+
+Authorization implemented with JWT Bearer Token. 
+Some endpoint (for example '/Shopping/Purchase') require Bearer Token in request.
+
+I installed Axios library in UI layer to fetch data from backend. 
+It helped me reduce code and increased readability.
+
+Checkout feature is available only to authorized users, 
+that's why I created RequireAuth component in React to prevent unauthorized access.
+
+
 
 ## How to run (in Visual Studio)
 
@@ -43,5 +56,3 @@ Authorization implemented with JWT.
 ## Database
 
 Database is hosted on https://freeasphosting.net/
-
-
