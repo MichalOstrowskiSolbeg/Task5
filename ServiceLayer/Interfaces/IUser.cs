@@ -1,4 +1,5 @@
 ﻿using ServiceLayer.DTO.Requests;
+using ServiceLayer.DTO.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ServiceLayer.Interfaces
 {
     public interface IUser
     {
-        string Login(LoginRequest request);
+        LoginResponse Login(LoginRequest request);
 
         void Register(RegisterRequest request);
     }

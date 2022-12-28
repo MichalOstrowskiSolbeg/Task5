@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using RepositoryLayer.Interfaces;
 using RepositoryLayer.Models;
 using ServiceLayer.DTO.Requests;
+using ServiceLayer.DTO.Responses;
 using ServiceLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace ServiceLayer.Services
             _configuration = configuration;
         }
 
-        public string Login(LoginRequest request)
+        public LoginResponse Login(LoginRequest request)
         {
             var user = _reposistory.GetUser(request.Username);
 
@@ -48,18 +49,37 @@ namespace ServiceLayer.Services
                 throw new Exception("Incorrect");
             }
 
+            List<Claim> userclaim = new List<Claim>
+            {
+                new Claim("Id", user.Id.ToString()),
+            };
+
+            if (user.Role.Equals("A"))
+            {
+                userclaim.Add(new Claim(ClaimTypes.Role, "admin"));
+            }
+            else
+            {
+                userclaim.Add(new Claim(ClaimTypes.Role, "client"));
+            }
+
+
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecretKey"]));
             SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
             JwtSecurityToken token = new JwtSecurityToken(
                 issuer: "https://localhost:5001",
                 audience: "https://localhost:5001",
-                claims: new List<Claim>(),
+                claims: userclaim,
                 expires: DateTime.Now.AddHours(2),
                 signingCredentials: creds
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new LoginResponse
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Role = user.Role
+            };
         }
 
         public void Register(RegisterRequest request)
@@ -83,7 +103,8 @@ namespace ServiceLayer.Services
                 LastName = request.LastName,
                 Username = request.Username,
                 Password = hashedPassword,
-                Salt = Convert.ToBase64String(salt)
+                Salt = Convert.ToBase64String(salt),
+                Role = 'C'.ToString()
             });
         }
     }

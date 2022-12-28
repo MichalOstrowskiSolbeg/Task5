@@ -11,7 +11,15 @@ function CartListTable(props) {
     function removeProduct(index) {
         data.splice(index, 1);
         localStorage.setItem('cart2', JSON.stringify(data));
-        props.updateCount(data.length);
+        props.updateCount(count());
+    }
+
+    function count() {
+        var c = 0;
+        for (const [key, value] of data) {
+            c = c + value;
+        }
+        return c;
     }
 
     function totalCost() {
@@ -27,7 +35,6 @@ function CartListTable(props) {
     }
 
     async function checkout() {
-        console.log(getCurrentUser())
         if (isAuthenticated()) {
             try {
                 const res = await Checkout()

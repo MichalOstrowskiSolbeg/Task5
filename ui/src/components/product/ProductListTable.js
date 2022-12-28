@@ -3,33 +3,45 @@ import React, { useEffect, useState } from 'react';
 
 function ProductListTable(props) {
     const data = props.data
-    const [products, setProducts] = useState(new Map());
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
         const stored = (localStorage.getItem('cart2'));
         if (stored) {
-            setProducts(new Map(JSON.parse(stored)));
+            setProducts(JSON.parse(stored));
         }
     }, []);
 
     function addProduct(item) {
         var isInMap = false;
-        for (const [key, value] of (products)) {
-            if (key.Id === item.Id) {
+        let id, value
+        for (const [key, [p, v]] of (products).entries()) {
+            //console.log(key + " => " + p + " " + v)
+            if (p.Id === item.Id) {
                 isInMap = true;
+                id = key
+                value = v+1
             }
         }
 
-
         if (!isInMap) {
-            products.set(item, 1)
-            setProducts(new Map(products));
-
-            localStorage.setItem('cart2', JSON.stringify(Array.from(products)));
-            props.updateCount(products.size);
+            products.push([item, 1])
+            localStorage.setItem('cart2', JSON.stringify(products));
+            props.updateCount(count());
         } else {
-            console.log("is in map")
+            products.splice(id, 1)
+            products.push([item, value])
+            localStorage.setItem('cart2', JSON.stringify(products));
+            props.updateCount(count());
         }
+    }
+
+    function count() {
+        var c = 0;
+        for (const [key, value] of products) {
+            c = c + value;
+        }
+        return c;
     }
 
     return (

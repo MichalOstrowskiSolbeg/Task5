@@ -11,7 +11,7 @@ instance.interceptors.request.use(
         let token
         console.log(user)
         if (user) {
-            token = user
+            token = user.Token
         }
         config.headers = {
             'Authorization': `Bearer ${token}`,

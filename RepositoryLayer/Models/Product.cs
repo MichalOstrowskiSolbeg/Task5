@@ -5,6 +5,11 @@ namespace RepositoryLayer.Models
 {
     public partial class Product
     {
+        public Product()
+        {
+            OrderProducts = new HashSet<OrderProduct>();
+        }
+
         public int Id { get; set; }
         public int BrandId { get; set; }
         public string Name { get; set; } = null!;
@@ -12,5 +17,6 @@ namespace RepositoryLayer.Models
         public decimal Cost { get; set; }
 
         public virtual Brand Brand { get; set; } = null!;
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }
