@@ -1,6 +1,9 @@
 # Task 5 - "Online electronics store"
 
-ASP .NET Core & React.js application "Online electronics store".
+Web application "Online electronics store". 
+
+Main tools and frameworks used in application: MS SQL Server, .NET Core Web API, Entity Framework, HTML, CSS, React.js, Axios
+
 
 
 
@@ -56,3 +59,9 @@ that's why I created RequireAuth component in React to prevent unauthorized acce
 ## Database
 
 Database is hosted on https://freeasphosting.net/
+
+I added non-clustered index on "username" column, because every login request requires to find user by username value.
+Also, I added unique constraint on that column.
+
+
+![Database](https://github.com/MichalOstrowskiSolbeg/Task5/blob/main/Database.png?raw=true)
