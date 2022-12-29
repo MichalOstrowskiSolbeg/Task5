@@ -4,9 +4,7 @@ using ServiceLayer.Interfaces;
 
 namespace Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController : ApiControllerBase
     {
         private readonly IProduct _service;
         public ProductController(IProduct product)

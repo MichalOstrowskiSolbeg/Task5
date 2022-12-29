@@ -6,7 +6,7 @@ function ProductListTable(props) {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        const stored = (localStorage.getItem('cart2'));
+        const stored = (localStorage.getItem('cart'));
         if (stored) {
             setProducts(JSON.parse(stored));
         }
@@ -15,31 +15,31 @@ function ProductListTable(props) {
     function addProduct(item) {
         var isInMap = false;
         let id, value
-        for (const [key, [p, v]] of (products).entries()) {
-            //console.log(key + " => " + p + " " + v)
-            if (p.Id === item.Id) {
+        for (let i = 0; i < products.length; i++) {
+            const a = products[i]
+            if (a.Product.Id === item.Id) {
                 isInMap = true;
-                id = key
-                value = v+1
+                id = i
+                value = a.Count + 1
             }
         }
 
         if (!isInMap) {
-            products.push([item, 1])
-            localStorage.setItem('cart2', JSON.stringify(products));
+            products.push({"Product":item,"Count": 1})
+            localStorage.setItem('cart', JSON.stringify(products));
             props.updateCount(count());
         } else {
             products.splice(id, 1)
-            products.push([item, value])
-            localStorage.setItem('cart2', JSON.stringify(products));
+            products.push({ "Product": item, "Count": value })
+            localStorage.setItem('cart', JSON.stringify(products));
             props.updateCount(count());
         }
     }
 
     function count() {
         var c = 0;
-        for (const [key, value] of products) {
-            c = c + value;
+        for (const object of products) {
+            c = c + object.Count;
         }
         return c;
     }

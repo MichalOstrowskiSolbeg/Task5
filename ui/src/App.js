@@ -38,14 +38,22 @@ export default class App extends Component {
         this.setState({ user: undefined })
     }
 
+    count = (data) => {
+        var c = 0;
+        for (const object of data) {
+            c = c + object.Count;
+        }
+        return c;
+    }
+
     componentDidMount() {
         const currentUser = getCurrentUser()
-        const stored = JSON.parse(localStorage.getItem('cart2'));
+        const stored = JSON.parse(localStorage.getItem('cart'));
         if (stored) {
             this.setState(
                 {
                     user: currentUser,
-                    count: stored.length
+                    count: this.count(stored)
                 })
         }
     }

@@ -13,7 +13,7 @@ class CartList extends React.Component {
     }
 
     getCartData() {
-        const stored = JSON.parse(localStorage.getItem('cart2'));
+        const stored = JSON.parse(localStorage.getItem('cart'));
         if (stored) {
             this.setState({
                 data: stored,

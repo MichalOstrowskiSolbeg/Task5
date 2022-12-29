@@ -5,9 +5,7 @@ using ServiceLayer.Interfaces;
 
 namespace Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : ApiControllerBase
     {
         private readonly IUser _service;
         public UserController(IUser user)

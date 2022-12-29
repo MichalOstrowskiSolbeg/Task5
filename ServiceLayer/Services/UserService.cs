@@ -71,7 +71,7 @@ namespace ServiceLayer.Services
                 issuer: "https://localhost:5001",
                 audience: "https://localhost:5001",
                 claims: userclaim,
-                expires: DateTime.Now.AddHours(2),
+                expires: DateTime.Now.AddHours(3),
                 signingCredentials: creds
             );
 

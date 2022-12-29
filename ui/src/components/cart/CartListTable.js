@@ -10,22 +10,22 @@ function CartListTable(props) {
 
     function removeProduct(index) {
         data.splice(index, 1);
-        localStorage.setItem('cart2', JSON.stringify(data));
+        localStorage.setItem('cart', JSON.stringify(data));
         props.updateCount(count());
     }
 
     function count() {
         var c = 0;
-        for (const [key, value] of data) {
-            c = c + value;
+        for (const object of data) {
+            c = c + object.Count;
         }
         return c;
     }
 
     function totalCost() {
         var sum = 0;
-        for (const [key, value] of data) {
-            sum = sum + (key.Cost * value);
+        for (const object of data) {
+            sum = sum + (object.Count * object.Product.Cost);
         }
         return sum;
     }
@@ -35,18 +35,20 @@ function CartListTable(props) {
     }
 
     async function checkout() {
+        console.log(data)
         if (isAuthenticated()) {
             try {
-                const res = await Checkout()
-                console.log(res)
-                alert(res.data)
+                const res = await Checkout(data)
+                const data2 = await res.data
+                console.log("5")
+                alert(data2)
             } catch (error) {
                 console.log(error)
             }
             
-            localStorage.removeItem("cart2")
-            props.updateCount(0);
-            //navigate("/")
+             localStorage.removeItem("cart")
+             props.updateCount(0);
+             navigate(0)
         } else {
             navigate("/login")
         }
@@ -68,16 +70,16 @@ function CartListTable(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map(([key, value], index) => (
+                        {data.map((key, index) => (
                             <tr key={index}>
-                                <td>{key.Name}</td>
-                                <td>{key.Description}</td>
-                                <td>${key.Cost}</td>
-                                <td>{key.Brand}</td>
-                                <td>{value}</td>
+                                <td>{key.Product.Name}</td>
+                                <td>{key.Product.Description}</td>
+                                <td>${key.Product.Cost}</td>
+                                <td>{key.Product.Brand}</td>
+                                <td>{key.Count}</td>
                                 <td>
                                     <ul className="list-actions">
-                                        <li><Link to={`/products/${key.Id}`}
+                                        <li><Link to={`/products/${key.Product.Id}`}
                                             className="details-button">DETAILS</Link></li>
                                         <li><button onClick={() => removeProduct(index)}
                                             className="remove-button">REMOVE</button></li>
@@ -89,12 +91,12 @@ function CartListTable(props) {
                 </table>
                 <p className="price">Total cost: ${totalCost()}</p>
 
-                <form className="form">
+                <div className="form">
                     <div className="form-buttons">
                         <button onClick={() => checkout()}
                             className="checkout-button">CHECKOUT</button>
                         </div>
-                </form>
+                </div>
             </>
             :
             <p>Your cart is currently empty</p>
