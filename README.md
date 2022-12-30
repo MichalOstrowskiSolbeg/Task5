@@ -10,13 +10,14 @@ Main tools and frameworks used in application: MS SQL Server, .NET Core Web API,
 
 ## Features
 
-- Login and Register
-- Counter of products added to shopping cart in Header
+- Login and Register. Register form requires FirstName, LastName, Usename (unique) and Password which has to be filled twice.
+- Icon and counter of products added to shopping cart in Header element
 - See all products ('products' page)
 - See product details
-- Add product to shopping list ('products' page)
-- Remove product form shopping list ('cart' page)
-- Checkout for logged user when user has added products to shopping cart ('cart' page)
+- Add product to shopping cart using 'ADD TO CART' button ('products' page)
+- List of product in shopping cart is stored in LocalStorage
+- Remove product form shopping list using 'REMOVE' button ('cart' page)
+- Checkout for logged user when user has added added at least one product to shopping cart ('cart' page)
 
 ## Documentation
 
