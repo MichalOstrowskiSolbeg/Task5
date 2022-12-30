@@ -4,6 +4,24 @@ import React, { useEffect, useState } from 'react';
 function ProductListTable(props) {
     const data = props.data
     const [products, setProducts] = useState([]);
+    const [filteredData, setFilteredData] = useState(data);
+    const [wordEntered, setWordEntered] = useState("");
+
+    const handleFilter = (event) => {
+        const searchWord = event.target.value;
+        setWordEntered(searchWord);
+        const newFilter = data.filter((value) => {
+            return value.Name.toLowerCase().includes(searchWord.toLowerCase()) ||
+                value.Description.toLowerCase().includes(searchWord.toLowerCase()) ||
+                value.Brand.toLowerCase().includes(searchWord.toLowerCase());
+        });
+
+        if (searchWord === "") {
+            setFilteredData(data);
+        } else {
+            setFilteredData(newFilter);
+        }
+    };
 
     useEffect(() => {
         const stored = (localStorage.getItem('cart'));
@@ -25,7 +43,7 @@ function ProductListTable(props) {
         }
 
         if (!isInMap) {
-            products.push({"Product":item,"Count": 1})
+            products.push({ "Product": item, "Count": 1 })
             localStorage.setItem('cart', JSON.stringify(products));
             props.updateCount(count());
         } else {
@@ -46,6 +64,14 @@ function ProductListTable(props) {
 
     return (
         <>
+            <div className="form">
+                <label>SEARCH</label>
+                    <input type="text" id="search"
+                        className=""
+                        onChange={handleFilter} value={wordEntered}
+                        placeholder='Search by name, description or brand' />
+
+            </div>
             <table className="table-list">
                 <thead>
                     <tr>
@@ -57,7 +83,7 @@ function ProductListTable(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(x =>
+                    {filteredData.map(x =>
                         <tr key={x.Id}>
                             <td>{x.Name}</td>
                             <td>{x.Description}</td>
