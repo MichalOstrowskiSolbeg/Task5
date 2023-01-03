@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import { isAdmin } from '../../helpers/UserHelper';
+import { isAdmin, isClient } from '../../helpers/UserHelper';
 
 function Navigation() {
     return (
@@ -11,6 +11,9 @@ function Navigation() {
                 <li><NavLink to='/cart' >Shopping cart</NavLink></li>
                 {isAdmin() &&
                     <li><NavLink to='/adminPanel'>Admin panel</NavLink></li>
+                }
+                {isClient() &&
+                    <li><NavLink to='/my_orders'>My orders</NavLink></li>
                 }
             </ul>
         </nav>

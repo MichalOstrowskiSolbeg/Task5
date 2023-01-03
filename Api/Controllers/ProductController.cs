@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.DTO.Requests;
 using ServiceLayer.Interfaces;
 
 namespace Api.Controllers
@@ -12,10 +13,10 @@ namespace Api.Controllers
             _service = product;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
+        [HttpPost]
+        public async Task<IActionResult> GetAllProducts(ProductRequest request)
         {
-            return Ok(await _service.GetProducts());
+            return Ok(await _service.GetProducts(request));
         }
 
         [HttpGet("{Id}")]

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using RepositoryLayer;
 using RepositoryLayer.Interfaces;
 using RepositoryLayer.Models;
+using ServiceLayer.DTO.Requests;
 using ServiceLayer.DTO.Responses;
 using ServiceLayer.Interfaces;
 using System;
@@ -26,9 +28,31 @@ namespace ServiceLayer.Services
             return _mapper.Map<ProductResponse>(await _repository.GetProduct(id));
         }
 
-        public async Task<List<ProductResponse>> GetProducts()
+        public async Task<PaginatedResponse<ProductResponse>> GetProducts(ProductRequest request)
         {
-            return _mapper.Map<List<ProductResponse>>(await _repository.GetProductsAsync());
+            var products = await _repository.GetProductsAsync(request.Search, request.PriceFrom, request.PriceTo);
+            if(!string.IsNullOrEmpty(request.Category) && !string.IsNullOrEmpty(request.Brand))
+            {
+                products = products.Where(x => x.Brand.Name.Equals(request.Brand) && x.Brand.Name.Equals(request.Brand)).ToList();
+            }
+            else if(!string.IsNullOrEmpty(request.Category))
+            {
+                products = products.Where(x => x.Category.Name.Equals(request.Category)).ToList();
+            }
+            else if (!string.IsNullOrEmpty(request.Brand))
+            {
+                products = products.Where(x => x.Brand.Name.Equals(request.Brand)).ToList();
+            }
+            
+            return new PaginatedResponse<ProductResponse> {
+                Results = _mapper.Map<List<ProductResponse>>(
+                    products
+                    .Skip((request.Page - 1) * PaginationValues.PAGE_SIZE)
+                    .Take(PaginationValues.PAGE_SIZE)
+                    ),
+                PageCount = (int)Math.Ceiling(products.Count() / (double)PaginationValues.PAGE_SIZE),
+                PageIndex = request.Page
+            };
         }
     }
 }

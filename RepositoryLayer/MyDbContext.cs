@@ -17,6 +17,7 @@ namespace RepositoryLayer
         {
         }
 
+        public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Brand> Brands { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderProduct> OrderProducts { get; set; } = null!;
@@ -36,6 +37,17 @@ namespace RepositoryLayer
             modelBuilder.Entity<Brand>(entity =>
             {
                 entity.ToTable("Brand");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.ToTable("Category");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
@@ -95,6 +107,8 @@ namespace RepositoryLayer
 
                 entity.Property(e => e.BrandId).HasColumnName("Brand_ID");
 
+                entity.Property(e => e.CategoryId).HasColumnName("Category_ID");
+
                 entity.Property(e => e.Cost).HasColumnType("money");
 
                 entity.Property(e => e.Description)
@@ -110,6 +124,12 @@ namespace RepositoryLayer
                     .HasForeignKey(d => d.BrandId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Item_Brand");
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Product_Category");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -155,4 +175,3 @@ namespace RepositoryLayer
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
-

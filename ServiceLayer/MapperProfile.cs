@@ -14,7 +14,14 @@ namespace ServiceLayer
         public MapperProfile()
         {
             CreateMap<Product, ProductResponse>()
-                .ForMember(x => x.Brand, y => y.MapFrom(s => s.Brand.Name));
+                .ForMember(x => x.Brand, y => y.MapFrom(s => s.Brand.Name))
+                .ForMember(x => x.Category, y => y.MapFrom(s => s.Category.Name));
+
+            CreateMap<Brand, BrandResponse>()
+                .ForMember(x => x.Brand, y => y.MapFrom(s => s.Name));
+
+            CreateMap<Category, CategoryResponse>()
+                .ForMember(x => x.Category, y => y.MapFrom(s => s.Name));
         }
     }
 }

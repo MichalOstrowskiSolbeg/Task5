@@ -19,12 +19,26 @@ namespace RepositoryLayer.Repositories
 
         public async Task<Product> GetProduct(int id)
         {
-            return await _context.Products.Include(x => x.Brand).FirstAsync(x => x.Id == id);
+            return await _context.Products.Include(x => x.Brand).Include(x => x.Category).FirstAsync(x => x.Id == id);
         }
 
-        public async Task<List<Product>> GetProductsAsync()
+        public async Task<List<Product>> GetProductsAsync(string searchParam, int min, int max)
         {
-            return await _context.Products.Include(x => x.Brand).OrderBy(x => x.Name).ToListAsync();
+            return await _context.Products
+                .Include(x => x.Brand)
+                .Include(x => x.Category)
+                .Where(x => 
+                (x.Name.ToLower().Contains(searchParam.ToLower()) || x.Description.ToLower().Contains(searchParam.ToLower())) 
+                && x.Cost >= min 
+                && x.Cost <= max
+                )
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+        }
+
+        public async Task<Brand> GetProductsBrands()
+        {
+            return await _context.Brands.Where(x => x.Products.Any()).FirstAsync();
         }
     }
 }

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { getProductList } from '../../api/ProductApiCalls';
+import { getBrands } from '../../api/BrandApiCalls';
+import { getCategories } from '../../api/CategoryApiCalls';
 import ProductListTable from "./ProductListTable";
 import { useParams } from "react-router";
 
@@ -9,32 +11,66 @@ class ProductList extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
-            data: []
+            data: [],
+            brands: [],
+            categories: []
         }
     }
 
-    async getProductData() {
+    async getProductsData(data) {
         try {
-            const res = await getProductList()
-            console.log(res.data)
+            const res = await getProductList(data)
             this.setState({
                 isLoaded: true,
                 data: res.data
             });
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    async getBrandsData() {
+        try {
+            const res = await getBrands()
             this.setState({
-                error: error
+                brands: res.data
             });
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async getCategoriesData() {
+        try {
+            const res = await getCategories()
+            this.setState({
+                categories: res.data
+            });
+        } catch (error) {
+            console.log(error)
         }
     }
 
     async componentDidMount() {
-        await this.getProductData()
+        await this.getProductsData({})
+        await this.getBrandsData()
+        await this.getCategoriesData()
+    }
+
+    handlePageChange = (page, search, brand, category, priceFrom, priceTo) => {
+        const request = {
+            Page: page,
+            PriceFrom: priceFrom,
+            PriceTo: priceTo,
+            Search: search,
+            Brand: brand,
+            Category: category
+        }
+        this.getProductsData(request);
     }
 
     render() {
-        const { error, isLoaded, data } = this.state
+        const { error, isLoaded, data, brands, categories } = this.state
         let content;
 
         if (error) {
@@ -42,7 +78,7 @@ class ProductList extends React.Component {
         } else if (!isLoaded) {
             content = <p>Loading...</p>
         } else {
-            content = <ProductListTable data={data} updateCount={this.props.updateCount} />
+            content = <ProductListTable data={data} updateCount={this.props.updateCount} load={this.handlePageChange} brands={brands} categories={categories} />
         }
 
         return (

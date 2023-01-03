@@ -2,25 +2,32 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.DTO.Requests;
+using ServiceLayer.Interfaces;
 using System.Data;
 
 namespace Api.Controllers
 {
     public class ShoppingController : ApiControllerBase
     {
-        public ShoppingController() 
+        private readonly IOrder _service;
+        public ShoppingController(IOrder order) 
         {
-
+            _service = order;
         }
 
-        [Authorize]
+        [Authorize(Roles = "client")]
         [HttpPost("Purchase")]
-        public async Task<IActionResult> Purchase(List<object> a)
+        public async Task<IActionResult> Purchase(List<ShoppingRequest> request)
         {
-            var b = a.First();
-
-            //var c = b.Product;*/
-            return Ok("Thank you for your purchase");
+            try
+            {
+                //_service.CreateOrder(request);
+                return Ok("Thank you for your purchase");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

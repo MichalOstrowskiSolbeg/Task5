@@ -13,5 +13,6 @@ namespace ServiceLayer.DTO.Responses
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Cost { get; set; }
+        public string Category { get; set; }
     }
 }

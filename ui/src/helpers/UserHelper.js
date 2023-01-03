@@ -15,3 +15,12 @@ export function isAdmin() {
 
     return false;
 }
+
+export function isClient() {
+    const user = getCurrentUser()
+    if (user) {
+        return user.Role === "C";
+    }
+
+    return false;
+}

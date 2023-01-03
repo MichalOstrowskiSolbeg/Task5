@@ -7,6 +7,7 @@ import { Checkout } from '../../api/ShoppingApiCalls';
 function CartListTable(props) {
     const data = props.data
     const navigate = useNavigate();
+    const [checkoutError, setError] = useState('');
 
     function removeProduct(index) {
         data.splice(index, 1);
@@ -40,10 +41,10 @@ function CartListTable(props) {
             try {
                 const res = await Checkout(data)
                 const data2 = await res.data
-                console.log("5")
                 alert(data2)
             } catch (error) {
                 console.log(error)
+                setError(error)
             }
             
              localStorage.removeItem("cart")
@@ -95,7 +96,8 @@ function CartListTable(props) {
                     <div className="form-buttons">
                         <button onClick={() => checkout()}
                             className="checkout-button">CHECKOUT</button>
-                        </div>
+                        <span id="errorCheckout" className="errors-text">{checkoutError}</span>
+                    </div>
                 </div>
             </>
             :

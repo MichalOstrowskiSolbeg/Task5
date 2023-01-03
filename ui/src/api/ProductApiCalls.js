@@ -1,7 +1,8 @@
 import api from "./Api";
 
-export function getProductList() {
-    return api.get('/Product');
+export function getProductList(data) {
+    const stringData = JSON.stringify(data)
+    return api.post(`/Product`, stringData);
 }
 
 export function getProduct(Id) {

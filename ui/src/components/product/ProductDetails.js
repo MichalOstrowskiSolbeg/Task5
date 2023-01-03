@@ -61,6 +61,10 @@ class ProductDetails extends React.Component {
                 <input type="text" className="" name="Cost" id="Cost" value={data.Cost} disabled />
                 <span id="errorCost" className="errors-text"></span>
 
+                <label htmlFor="Category">Category</label>
+                <input type="text" className="" name="Category" id="Category" value={data.Category} disabled />
+                <span id="errorCategory" className="errors-text"></span>
+
                 <div className="form-buttons">
                     <Link to={`/products`} className="form-button-cancel">BACK</Link>
                 </div>

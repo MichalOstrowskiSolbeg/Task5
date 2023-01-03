@@ -1,5 +1,4 @@
 ﻿using RepositoryLayer.Models;
-using ServiceLayer.DTO.Requests;
 using ServiceLayer.DTO.Responses;
 using System;
 using System.Collections.Generic;
@@ -9,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.Interfaces
 {
-    public interface IProduct
+    public interface IBrand
     {
-        Task<PaginatedResponse<ProductResponse>> GetProducts(ProductRequest request);
-
-        Task<ProductResponse> GetProduct(int id);
+        Task<List<BrandResponse>> GetProductsBrands();
     }
 }
