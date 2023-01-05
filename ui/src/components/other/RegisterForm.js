@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from "react-router";
 import { Register } from '../../api/AuthApiCalls';
+import { checkTextRange } from '../../helpers/ValidationHelpers'
 
 class RegisterForm extends React.Component {
     constructor(props) {
@@ -59,28 +60,43 @@ class RegisterForm extends React.Component {
     validateField = (fieldName, fieldValue) => {
         let errorMessage = '';
         if (fieldName === 'FirstName') {
+            if (!checkTextRange(fieldValue, 2, 50)) {
+                errorMessage = `This field requires from 2 to 50 characters`
+            }
             if (!fieldValue) {
                 errorMessage = `Required`
             }
         }
         if (fieldName === 'LastName') {
+            if (!checkTextRange(fieldName, 2, 50)) {
+                errorMessage = `This field requires from 2 to 50 characters`
+            }
             if (!fieldValue) {
                 errorMessage = `Required`
             }
         }
         if (fieldName === 'Username') {
+            if (!checkTextRange(fieldName, 2, 50)) {
+                errorMessage = `This field requires from 2 to 50 characters`
+            }
             if (!fieldValue) {
                 errorMessage = `Required`
             }
         }
         if (fieldName === 'Password') {
+            if (!checkTextRange(fieldName, 2, 20)) {
+                errorMessage = `This field requires from 2 to 20 characters`
+            }
             if (!fieldValue) {
                 errorMessage = `Required`
             }
         }
         if (fieldName === 'Password2') {
-            if (fieldValue != this.state.user.Password) {
+            if (fieldValue !== this.state.user.Password) {
                 errorMessage = `Password values should be the same`
+            }
+            if (!checkTextRange(fieldName, 2, 20)) {
+                errorMessage = `This field requires from 2 to 20 characters`
             }
             if (!fieldValue) {
                 errorMessage = `Required`

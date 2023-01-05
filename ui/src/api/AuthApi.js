@@ -9,7 +9,6 @@ instance.interceptors.request.use(
     async config => {
         const user = getCurrentUser()
         let token
-        console.log(user)
         if (user) {
             token = user.Token
         }

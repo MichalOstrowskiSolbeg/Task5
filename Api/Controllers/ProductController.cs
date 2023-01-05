@@ -13,8 +13,8 @@ namespace Api.Controllers
             _service = product;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetAllProducts(ProductRequest request)
+        [HttpGet]
+        public async Task<IActionResult> GetAllProducts([FromQuery]ProductRequest request)
         {
             return Ok(await _service.GetProducts(request));
         }

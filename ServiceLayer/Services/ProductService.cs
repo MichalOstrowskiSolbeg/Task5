@@ -30,20 +30,17 @@ namespace ServiceLayer.Services
 
         public async Task<PaginatedResponse<ProductResponse>> GetProducts(ProductRequest request)
         {
-            var products = await _repository.GetProductsAsync(request.Search, request.PriceFrom, request.PriceTo);
-            if(!string.IsNullOrEmpty(request.Category) && !string.IsNullOrEmpty(request.Brand))
-            {
-                products = products.Where(x => x.Brand.Name.Equals(request.Brand) && x.Brand.Name.Equals(request.Brand)).ToList();
-            }
-            else if(!string.IsNullOrEmpty(request.Category))
-            {
-                products = products.Where(x => x.Category.Name.Equals(request.Category)).ToList();
-            }
-            else if (!string.IsNullOrEmpty(request.Brand))
-            {
-                products = products.Where(x => x.Brand.Name.Equals(request.Brand)).ToList();
-            }
-            
+            var products = await _repository.GetProductsAsync();
+
+            products = products
+                .Where(x =>
+                (request.Search == null || x.Name.ToLower().Contains(request.Search.ToLower()) || x.Description.ToLower().Contains(request.Search.ToLower()))
+                && (string.IsNullOrEmpty(request.Category) || x.Category.Name.Equals(request.Category))
+                && (string.IsNullOrEmpty(request.Brand) || x.Brand.Name.Equals(request.Brand))
+                && x.Cost >= request.PriceFrom
+                && x.Cost <= request.PriceTo
+                ).ToList();
+
             return new PaginatedResponse<ProductResponse> {
                 Results = _mapper.Map<List<ProductResponse>>(
                     products

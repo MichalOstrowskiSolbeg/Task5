@@ -21,7 +21,7 @@ namespace Api.Controllers
         {
             try
             {
-                //_service.CreateOrder(request);
+                await _service.CreateOrder(request, GetUserId());
                 return Ok("Thank you for your purchase");
             }
             catch(Exception ex)

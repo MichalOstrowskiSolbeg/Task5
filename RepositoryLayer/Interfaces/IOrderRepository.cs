@@ -9,12 +9,14 @@ namespace RepositoryLayer.Interfaces
 {
     public interface IOrderRepository
     {
-        List<Order> GetOrders();
+        Task<List<Order>> GetOrders();
 
-        List<Order> GetUserOrders(int id);
+        Task<List<Order>> GetUserOrders(int id);
 
-        void CreateOrder(Order order);
+        Task<Order> GetOrder(int id);
 
-        void ChangeOrderStatus(int id, string status);
+        Task<int> CreateOrder(Order order);
+
+        Task ChangeOrderStatus(int id, string status);
     }
 }

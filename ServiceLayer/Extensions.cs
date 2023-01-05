@@ -17,6 +17,7 @@ namespace ServiceLayer
             services.AddScoped<IUser, UserService>();
             services.AddScoped<IBrand, BrandService>();
             services.AddScoped<ICategory, CategoryService>();
+            services.AddScoped<IOrder, OrderService>();
 
             return services;
         }

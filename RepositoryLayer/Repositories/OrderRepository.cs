@@ -1,4 +1,5 @@
-﻿using RepositoryLayer.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using RepositoryLayer.Interfaces;
 using RepositoryLayer.Models;
 using System;
 using System.Collections.Generic;
@@ -16,27 +17,33 @@ namespace RepositoryLayer.Repositories
             _context = context;
         }
 
-        public List<Order> GetOrders()
+        public async Task<List<Order>> GetOrders()
         {
-            return _context.Orders.ToList();
+            return await _context.Orders.Include(x => x.OrderProducts).ThenInclude(x => x.Product).ToListAsync();
         }
 
-        public List<Order> GetUserOrders(int id)
+        public async Task<List<Order>> GetUserOrders(int id)
         {
-            return _context.Orders.Where(x => x.UserId == id).ToList();
+            return await _context.Orders.Include(x => x.OrderProducts).ThenInclude(x => x.Product).Where(x => x.UserId == id).ToListAsync();
         }
 
-        public async void ChangeOrderStatus(int id, string status)
+        public async Task ChangeOrderStatus(int id, string status)
         {
             var order = _context.Orders.First(x => x.Id == id);
             order.Status = status;
             await _context.SaveChangesAsync();
         }
 
-        public void CreateOrder(Order order)
+        public async Task<int> CreateOrder(Order order)
         {
-            _context.Orders.Add(order);
-            _context.SaveChanges();
+            var result = await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
+            return result.Entity.Id;
+        }
+
+        public async Task<Order> GetOrder(int id)
+        {
+            return await _context.Orders.Include(x => x.OrderProducts).ThenInclude(x => x.Product).ThenInclude(x => x.Brand).FirstAsync(x => x.Id == id);
         }
     }
 }

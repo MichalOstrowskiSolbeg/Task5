@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace RepositoryLayer.Interfaces
 {
-    public interface IProductRepository
+    public interface IOrderProductRepository
     {
-        Task<List<Product>> GetProductsAsync();
-
-        Task<Product> GetProduct(int id);
+        Task AddProducts(List<OrderProduct> orderProducts);
     }
 }

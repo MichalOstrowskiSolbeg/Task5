@@ -22,16 +22,11 @@ namespace RepositoryLayer.Repositories
             return await _context.Products.Include(x => x.Brand).Include(x => x.Category).FirstAsync(x => x.Id == id);
         }
 
-        public async Task<List<Product>> GetProductsAsync(string searchParam, int min, int max)
+        public async Task<List<Product>> GetProductsAsync()
         {
             return await _context.Products
                 .Include(x => x.Brand)
                 .Include(x => x.Category)
-                .Where(x => 
-                (x.Name.ToLower().Contains(searchParam.ToLower()) || x.Description.ToLower().Contains(searchParam.ToLower())) 
-                && x.Cost >= min 
-                && x.Cost <= max
-                )
                 .OrderBy(x => x.Name)
                 .ToListAsync();
         }

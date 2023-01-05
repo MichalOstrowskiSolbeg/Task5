@@ -248,6 +248,7 @@ main {
     margin-right: 0.25rem;
 }
 
+.edit-button,
 .remove-button,
 .details-button,
 .add-to-cart-button {
@@ -307,6 +308,17 @@ main {
     color: black;
 }
 
+.edit-button {
+    background-color: #f5a01b;
+    border-color: #f5a01b;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: transparent;
+    color: black;
+}
+
 .form-button-edit {
     background-color: #f5a01b;
 }
@@ -321,7 +333,6 @@ main {
 
 .form-button-cancel:hover {
     background-color: #F75A5A;
-
 }
 
 .form-button-submit {
@@ -363,7 +374,7 @@ textarea {
 
 .form {
     display: grid;
-    grid-template-columns: 120px 280px 1fr;
+    grid-template-columns: 120px 300px 1fr;
     row-gap: 1rem;
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;

@@ -17,7 +17,7 @@ namespace Api.Controllers
                 return int.Parse(rolesClaims[0].Value);
             }
 
-            return 0;
+            return -1;
         }
 
         private string GetUserRole()

@@ -14,6 +14,7 @@ import LoginForm from './components/other/LoginForm';
 import RegisterForm from './components/other/RegisterForm';
 import { getCurrentUser } from "./helpers/UserHelper";
 import RequireAuth from "./helpers/RequireAuth";
+import OrderList from './components/order/OrderList';
 
 export default class App extends Component {
     constructor(props) {
@@ -76,6 +77,12 @@ export default class App extends Component {
                     <Route element={<RequireAuth />}>
                         <Route path="/checkout" element={<MainPage />} />
                     </Route>
+
+                    <Route element={<RequireAuth />}>
+                        <Route path="/my_orders" element={<OrderList />} />
+                        <Route path="/admin_panel" element={<OrderList />} />
+                    </Route>
+
                 </Routes>
                 <Footer />
             </BrowserRouter>
