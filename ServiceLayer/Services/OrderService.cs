@@ -44,7 +44,7 @@ namespace ServiceLayer.Services
 
         public async Task CreateOrder(List<ShoppingRequest> request, int userId)
         {
-            if(request == null)
+            if(request == null || request.Count == 0)
             {
                 throw new ArgumentNullException("Something went wrong :(");
             }
@@ -56,7 +56,8 @@ namespace ServiceLayer.Services
                     var orderId = await _repository.CreateOrder(new Order
                     {
                         UserId = userId,
-                        Status = OrderStatus.Pending.ToString()
+                        Status = OrderStatus.Pending.ToString(),
+                        Date = DateTime.Now
                     });
 
                     await _repositoryOrderProduct.AddProducts(

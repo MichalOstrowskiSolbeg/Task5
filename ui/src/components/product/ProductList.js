@@ -31,6 +31,9 @@ class ProductList extends React.Component {
             });
         } catch (error) {
             console.log(error)
+            this.setState({
+                error: error.message
+            });
         }
     }
 
@@ -63,14 +66,6 @@ class ProductList extends React.Component {
     }
 
     handlePageChange = (page, search, brand, category, priceFrom, priceTo) => {
-        /*const request = {
-            Page: page,
-            PriceFrom: priceFrom,
-            PriceTo: priceTo,
-            Search: search,
-            Brand: brand,
-            Category: category
-        }*/
         this.getProductsData(page, search, brand, category, priceFrom, priceTo);
     }
 

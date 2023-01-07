@@ -36,7 +36,6 @@ function CartListTable(props) {
     }
 
     async function checkout() {
-        console.log(data)
         if (isAuthenticated()) {
             try {
                 const res = await Checkout(data)
@@ -46,10 +45,10 @@ function CartListTable(props) {
                 console.log(error)
                 setError(error)
             }
-            
-             localStorage.removeItem("cart")
-             props.updateCount(0);
-             navigate(0)
+
+            localStorage.removeItem("cart")
+            props.updateCount(0);
+            navigate(0)
         } else {
             navigate("/login")
         }
@@ -91,7 +90,6 @@ function CartListTable(props) {
                     </tbody>
                 </table>
                 <p className="price">Total cost: ${totalCost()}</p>
-
                 <div className="form">
                     <div className="form-buttons">
                         <button onClick={() => checkout()}

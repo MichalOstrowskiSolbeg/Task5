@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { isAuthenticated } from '../../helpers/UserHelper';
+import { isAdmin, isAuthenticated } from '../../helpers/UserHelper';
 
 function Header(props) {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate('/cart');
+        if (!isAdmin()) {
+            navigate('/cart');
+        }
     };
 
     return (

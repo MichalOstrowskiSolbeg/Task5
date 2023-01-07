@@ -39,6 +39,7 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssembly(typeof(RegisterRequestValidator).Assembly);
 builder.Services.AddValidatorsFromAssembly(typeof(LoginRequestValidator).Assembly);
+builder.Services.AddValidatorsFromAssembly(typeof(ShoppingRequestValidator).Assembly);
 
 builder.Services.AddRepositoryLayer().AddServiceLayer();
 

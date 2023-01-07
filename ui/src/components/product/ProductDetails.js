@@ -3,7 +3,7 @@ import { getProduct } from '../../api/ProductApiCalls';
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-class ProductDetails extends React.Component {
+class ProductDetails extends Component {
     constructor(props) {
         super(props);
         const id = this.props.params.Id

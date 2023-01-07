@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
+import { isAdmin, isClient } from "../../helpers/UserHelper";
 
 function ProductListTable(props) {
     const data = props.data.Results
@@ -7,7 +8,7 @@ function ProductListTable(props) {
     const [products, setProducts] = useState([]);
     const [wordEntered, setWordEntered] = useState('');
     const [minValue, setMinValue] = useState(0);
-    const [maxValue, setMaxValue] = useState(9999);
+    const [maxValue, setMaxValue] = useState(999);
     const [selectedBrand, setSelectedBrand] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [currentPage, setPage] = useState(props.data.PageIndex);
@@ -87,21 +88,28 @@ function ProductListTable(props) {
 
     return (
         <>
-            <div className="filter-div">
-                Brands:
-                <div className="radiobox-div">
-                    <input type="radio" onChange={handleBrandChange} value="" checked={"" === selectedBrand} className="radiobox-input" />
-                    All
-                </div>
-                {Array.from(props.brands).map(x =>
-                    <div className="radiobox-div" key={x.Brand}>
-                        <input type="radio" value={x.Brand} onChange={handleBrandChange} checked={x.Brand === selectedBrand} className="radiobox-input" />
-                        {x.Brand}
+            <div className="form">
+                <label>
+                    Brands:
+                </label>
+                <div className="filter-div">
+                    <div className="radiobox-div">
+                        <input type="radio" onChange={handleBrandChange} value="" checked={"" === selectedBrand} className="radiobox-input" />
+                        All
                     </div>
-                )}
-            </div>
-            <div className="filter-div">
-                Categories:
+                    {Array.from(props.brands).map(x =>
+                        <div className="radiobox-div" key={x.Brand}>
+                            <input type="radio" value={x.Brand} onChange={handleBrandChange} checked={x.Brand === selectedBrand} className="radiobox-input" />
+                            {x.Brand}
+                        </div>
+                    )}
+                </div>
+                <span></span>
+
+                <label>
+                    Categories:
+                </label>
+                <div className="filter-div">
                 <div className="radiobox-div">
                     <input type="radio" onChange={handleCategoryChange} value="" checked={"" === selectedCategory} className="radiobox-input" />
                     All
@@ -112,19 +120,20 @@ function ProductListTable(props) {
                         {x.Category}
                     </div>
                 )}
-            </div>
-            <div className="form">
+                </div>
+                <span></span>
+
                 <label>Price from: </label>
                 <input type="number" id="priceFrom"
                     onChange={handleFilterMinPrice} value={minValue} />
                 <span></span>
 
-                <label>Price to:</label>
+                <label>Price to: </label>
                 <input type="number" id="priceTo"
                     onChange={handleFilterMaxPrice} value={maxValue} />
                 <span></span>
 
-                <label>SEARCH</label>
+                <label>Search: </label>
                 <input type="text" id="search"
                     onChange={handleSearchFilter} value={wordEntered}
                     placeholder='Search by name, description' />
@@ -154,7 +163,11 @@ function ProductListTable(props) {
                                 <ul className="list-actions">
                                     <li><Link to={`/products/${x.Id}`}
                                         className="details-button">DETAILS</Link></li>
-                                    <li><button className="add-to-cart-button" onClick={() => addProduct(x)}>ADD TO CART</button></li>
+                                    {!isAdmin() &&
+                                        <li>
+                                            <button className="add-to-cart-button" onClick={() => addProduct(x)}>ADD TO CART</button>
+                                        </li>
+                                    }
                                 </ul>
                             </td>
                         </tr>
@@ -164,11 +177,11 @@ function ProductListTable(props) {
             <div className="pagination">
                 {Array.from({ length: pageCount }).map((x, i) => (
                     <button
-                        key={i+1}
-                        onClick={() => handlePageChange(i+1)}
+                        key={i + 1}
+                        onClick={() => handlePageChange(i + 1)}
                         disabled={i + 1 === currentPage}
-                        className={i +1 === currentPage ? 'active' : ''}>
-                        {i+1}
+                        className={i + 1 === currentPage ? 'active' : ''}>
+                        {i + 1}
                     </button>
                 ))}
             </div>

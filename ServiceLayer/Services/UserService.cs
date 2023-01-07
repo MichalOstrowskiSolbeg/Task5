@@ -27,7 +27,7 @@ namespace ServiceLayer.Services
             _configuration = configuration;
         }
 
-        public LoginResponse Login(LoginRequest request)
+        public async Task<LoginResponse> Login(LoginRequest request)
         {
             var user = _reposistory.GetUser(request.Username);
 
@@ -82,8 +82,13 @@ namespace ServiceLayer.Services
             };
         }
 
-        public void Register(RegisterRequest request)
+        public async Task Register(RegisterRequest request)
         {
+            if(_reposistory.GetUser(request.Username) != null)
+            {
+                throw new Exception("This username is already taken");
+            }
+
             byte[] salt = new byte[256 / 8];
             using (var rng = RandomNumberGenerator.Create())
             {
@@ -97,7 +102,7 @@ namespace ServiceLayer.Services
                 iterationCount: int.Parse(_configuration["iterations"]),
                 numBytesRequested: 512 / 8));
 
-            _reposistory.AddUser(new User
+            await _reposistory.AddUser(new User
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,

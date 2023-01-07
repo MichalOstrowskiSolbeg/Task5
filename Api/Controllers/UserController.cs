@@ -18,7 +18,7 @@ namespace Api.Controllers
         {
             try
             {
-                return Ok(_service.Login(request));
+                return Ok(await _service.Login(request));
             } 
             catch(Exception ex)
             {
@@ -27,11 +27,11 @@ namespace Api.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register(RegisterRequest request)
+        public async Task<IActionResult> Register(RegisterRequest request)
         {
             try
             {
-                _service.Register(request);
+                await _service.Register(request);
                 return NoContent();
             }
             catch (Exception ex)

@@ -8,8 +8,9 @@ namespace ServiceLayer.Common
 {
     public enum OrderStatus
     {
-        Cancelled,
+        Pending,
+        Accepted,
         Completed,
-        Pending
+        Rejected,
     }
 }

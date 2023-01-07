@@ -8,12 +8,14 @@ function Navigation() {
             <ul>
                 <li><NavLink to='/' >Home</NavLink></li>
                 <li><NavLink to='/products'>Products</NavLink></li>
-                <li><NavLink to='/cart' >Shopping cart</NavLink></li>
+                {!isAdmin() &&
+                    <li><NavLink to='/cart' >Shopping cart</NavLink></li>
+                }
                 {isAdmin() &&
                     <li><NavLink to='/admin_panel'>Admin panel</NavLink></li>
                 }
                 {isClient() &&
-                    <li><NavLink to='/my_orders'>My orders</NavLink></li>
+                    <li><NavLink to='/order'>My orders</NavLink></li>
                 }
             </ul>
         </nav>

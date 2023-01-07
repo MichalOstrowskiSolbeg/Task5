@@ -1,9 +1,13 @@
 import api from "./AuthApi";
 
-export function getOrderList() {
-    return api.get(`/Order`);
+export async function getOrderList() {
+    return await api.get(`/Order`);
 }
 
-export function getOrder(id) {
-    return api.get(`/Order/${id}`);
+export async function getOrder(id) {
+    return await api.get(`/Order/${id}`);
+}
+
+export async function changeOrderStatus(id, status) {
+    return await api.put(`/Order/${id}?status=${status}`);
 }

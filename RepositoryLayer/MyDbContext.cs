@@ -62,6 +62,8 @@ namespace RepositoryLayer
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.Date).HasColumnType("datetime");
+
                 entity.Property(e => e.Status)
                     .HasMaxLength(50)
                     .IsUnicode(false);

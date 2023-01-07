@@ -10,6 +10,7 @@ namespace ServiceLayer.DTO.Responses
     {
         public int Id { get; set; }
         public string Status { get; set; }
+        public DateTime Date { get; set; }
         public decimal TotalCost { get; set; }
         public int Count { get; set; }
     }

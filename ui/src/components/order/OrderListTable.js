@@ -1,16 +1,10 @@
 import { Link } from "react-router-dom";
 import React, { useState } from 'react';
 import { isAdmin } from "../../helpers/UserHelper";
+import { getFormattedDate } from "../../helpers/DateFormat";
 
 function OrderListTable(props) {
     const data = props.data
-    const pageCount = props.data.PageCount
-    const [currentPage, setPage] = useState(props.data.PageIndex);
-
-    const handlePageChange = (page) => {
-        //setPage(page)
-        //props.load(page, wordEntered, selectedBrand, selectedCategory, minValue, maxValue)
-    }
 
     return (
         <>
@@ -19,8 +13,9 @@ function OrderListTable(props) {
                     <tr>
                         <th>Id</th>
                         <th>Total cost</th>
-                        <th>How many</th>
+                        <th>How many products</th>
                         <th>Status</th>
+                        <th>Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -31,6 +26,7 @@ function OrderListTable(props) {
                             <td>${x.TotalCost}</td>
                             <td>{x.Count}</td>
                             <td>{x.Status}</td>
+                            <td>{getFormattedDate(x.Date)}</td>
                             <td>
                                 <ul className="list-actions">
                                     <li>
@@ -47,17 +43,6 @@ function OrderListTable(props) {
                     )}
                 </tbody>
             </table>
-            <div className="pagination">
-                {Array.from({ length: pageCount }).map((x, i) => (
-                    <button
-                        key={i+1}
-                        onClick={() => handlePageChange(i+1)}
-                        disabled={i + 1 === currentPage}
-                        className={i +1 === currentPage ? 'active' : ''}>
-                        {i+1}
-                    </button>
-                ))}
-            </div>
         </>
     )
 }

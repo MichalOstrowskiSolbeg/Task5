@@ -8,7 +8,8 @@ class OrderList extends Component {
         super(props);
         this.state = {
             isLoaded: false,
-            data: []
+            data: [],
+            error: null
         }
     }
 
@@ -21,6 +22,9 @@ class OrderList extends Component {
             });
         } catch (error) {
             console.log(error)
+            this.setState({
+                error: error.message
+            });
         }
     }
 

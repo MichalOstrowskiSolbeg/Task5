@@ -10,8 +10,8 @@ namespace ServiceLayer.Interfaces
 {
     public interface IUser
     {
-        LoginResponse Login(LoginRequest request);
+        Task<LoginResponse> Login(LoginRequest request);
 
-        void Register(RegisterRequest request);
+        Task Register(RegisterRequest request);
     }
 }

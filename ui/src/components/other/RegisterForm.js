@@ -51,7 +51,7 @@ class RegisterForm extends React.Component {
             } catch (error) {
                 console.log(error)
                 this.setState({
-                    error: error.response.data.title
+                    error: error.response.data
                 })
             }
         }
@@ -68,7 +68,7 @@ class RegisterForm extends React.Component {
             }
         }
         if (fieldName === 'LastName') {
-            if (!checkTextRange(fieldName, 2, 50)) {
+            if (!checkTextRange(fieldValue, 2, 50)) {
                 errorMessage = `This field requires from 2 to 50 characters`
             }
             if (!fieldValue) {
@@ -76,7 +76,7 @@ class RegisterForm extends React.Component {
             }
         }
         if (fieldName === 'Username') {
-            if (!checkTextRange(fieldName, 2, 50)) {
+            if (!checkTextRange(fieldValue, 2, 50)) {
                 errorMessage = `This field requires from 2 to 50 characters`
             }
             if (!fieldValue) {
@@ -84,7 +84,7 @@ class RegisterForm extends React.Component {
             }
         }
         if (fieldName === 'Password') {
-            if (!checkTextRange(fieldName, 2, 20)) {
+            if (!checkTextRange(fieldValue, 2, 20)) {
                 errorMessage = `This field requires from 2 to 20 characters`
             }
             if (!fieldValue) {
@@ -95,14 +95,13 @@ class RegisterForm extends React.Component {
             if (fieldValue !== this.state.user.Password) {
                 errorMessage = `Password values should be the same`
             }
-            if (!checkTextRange(fieldName, 2, 20)) {
+            if (!checkTextRange(fieldValue, 2, 20)) {
                 errorMessage = `This field requires from 2 to 20 characters`
             }
             if (!fieldValue) {
                 errorMessage = `Required`
             }
         }
-
         return errorMessage
     }
 
@@ -170,10 +169,9 @@ class RegisterForm extends React.Component {
                         className={this.state.errors.Password2 ? 'error-input' : ''} />
                     <span id="errorPassword2" className="errors-text">{this.state.errors.Password2}</span>
 
-                    <span id="loginErrors" className="errors-text">{this.state.error}</span>
-
                     <div className="form-buttons">
                         <input type="submit" value="REGISTER" className="form-button-submit" />
+                        <span id="loginErrors" className="errors-text">{this.state.error}</span>
                     </div>
                 </form>
             </>

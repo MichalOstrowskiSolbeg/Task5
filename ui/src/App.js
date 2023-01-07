@@ -14,7 +14,10 @@ import LoginForm from './components/other/LoginForm';
 import RegisterForm from './components/other/RegisterForm';
 import { getCurrentUser } from "./helpers/UserHelper";
 import RequireAuth from "./helpers/RequireAuth";
+import RequireAdminAuth from "./helpers/RequireAdminAuth";
 import OrderList from './components/order/OrderList';
+import OrderDetails from './components/order/OrderDetails';
+import OrderEditForm from './components/order/OrderEditForm';
 
 export default class App extends Component {
     constructor(props) {
@@ -79,8 +82,12 @@ export default class App extends Component {
                     </Route>
 
                     <Route element={<RequireAuth />}>
-                        <Route path="/my_orders" element={<OrderList />} />
+                        <Route path="/order" element={<OrderList />} />
                         <Route path="/admin_panel" element={<OrderList />} />
+                        <Route path="/order/details/:Id" element={<OrderDetails />} />
+                    </Route>
+                    <Route element={<RequireAdminAuth />}>
+                        <Route path="/order/edit/:Id" element={<OrderEditForm />} />
                     </Route>
 
                 </Routes>

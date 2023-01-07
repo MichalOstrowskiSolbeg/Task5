@@ -25,17 +25,15 @@ body {
 }
 
 .radiobox-div {
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
     display: inline;
     margin-right: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+
 }
 
 .filter-div {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.75em;
+    display: inline;
 }
 
 .pagination {
@@ -380,6 +378,14 @@ textarea {
     margin-top: 0.5rem;
 }
 
+    .form .filter-div {
+        display: flex;
+    }
+
+    .form .radiobox-div {
+        display: flex;
+    }
+
 .form-buttons {
     display: grid;
     margin-top: 1rem;
@@ -402,6 +408,7 @@ textarea {
 
 .form-text,
 .form select,
+.form input[type="radio"],
 .form input[type="text"],
 .form input[type="password"],
 .form input[type="number"],

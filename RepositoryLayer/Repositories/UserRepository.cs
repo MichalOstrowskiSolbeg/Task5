@@ -1,4 +1,5 @@
-﻿using RepositoryLayer.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using RepositoryLayer.Interfaces;
 using RepositoryLayer.Models;
 using System;
 using System.Collections.Generic;
@@ -16,15 +17,15 @@ namespace RepositoryLayer.Repositories
             _context = context;
         }
 
-        public void AddUser(User user)
+        public async Task AddUser(User user)
         {
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
         }
 
         public User GetUser(string username)
         {
-            return _context.Users.FirstOrDefault(x => x.Username == username);
+            return _context.Users.SingleOrDefault(x => x.Username.Equals(username));
         }
     }
 }

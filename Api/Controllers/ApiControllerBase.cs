@@ -34,13 +34,13 @@ namespace Api.Controllers
         protected bool IsAdmin()
         {
             var role = GetUserRole();
-            return role.Equals("A");
+            return role.Equals("admin");
         }
 
         protected bool IsClient()
         {
             var role = GetUserRole();
-            return role.Equals("C");
+            return role.Equals("client");
         }
     }
 }

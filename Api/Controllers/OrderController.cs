@@ -16,7 +16,7 @@ namespace Api.Controllers
             _service = order;
         }
 
-        //[Authorize(Roles = "client, admin")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetOrders()
         {
@@ -24,9 +24,9 @@ namespace Api.Controllers
             {
                 if (IsAdmin())
                 {
-                    return Ok(await _service.GetOrders(GetUserId()));
+                    return Ok(await _service.GetOrders());
                 }
-                return Ok(await _service.GetOrders());
+                return Ok(await _service.GetOrders(GetUserId()));
             }
             catch (Exception ex)
             {
@@ -34,6 +34,7 @@ namespace Api.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrder(int id)
         {
@@ -47,6 +48,7 @@ namespace Api.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> ChangeStatus(int id, OrderStatus status)
         {

@@ -11,6 +11,6 @@ namespace RepositoryLayer.Interfaces
     {
         User GetUser(string username);
 
-        void AddUser(User user);
+        Task AddUser(User user);
     }
 }
