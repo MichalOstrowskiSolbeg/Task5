@@ -10,15 +10,16 @@ Main tools and frameworks used in application: MS SQL Server, .NET Core Web API,
 
 ## Features
 
-- Login and Register. Register form requires FirstName, LastName, Usename (unique) and Password which has to be filled twice.
+- Login and Register. Register form requires FirstName, LastName, Usename (unique) and Password which has to be filled twice
 - Icon and counter of products added to shopping cart in Header element
 - See all products ('products' page)
 - See product details
 - Add product to shopping cart using 'ADD TO CART' button ('products' page)
-- List of product in shopping cart is stored in LocalStorage
 - Remove product form shopping list using 'REMOVE' button ('cart' page)
-- Checkout for logged user when user has added added at least one product to shopping cart ('cart' page)
-
+- Checkout for clients when client has added added at least one product to shopping cart ('cart' page), when 'CHECKOUT' button is clicked order will be created and alert with message will be shown 
+- See orders history (only for clients)
+- Admin panel (only for admin)
+- Change order status (only for admin)
 ## Documentation
 
 Project contains of 4 layers (Repository, Service, API, UI). 
@@ -36,12 +37,27 @@ To decrease chance of passwords getting broken I added random string "salt" whic
 
 Authorization implemented with JWT Bearer Token. 
 Some endpoint (for example '/Shopping/Purchase') require Bearer Token in request.
+I implemented role-based authorization with 2 roles: admin, client. 
 
 I installed Axios library in UI layer to fetch data from backend. 
 It helped me reduce code and increased readability.
 
+List of product in shopping cart is stored in LocalStorage.
+
+I created ApiControllerBase class which is inherited by all controllers in API layer. 
+ApiControllerBase class has methods which check data stored in JWT: role, user ID. 
+It allows me to process requested data for user without sending additional data. 
+I used to functionality when I want to send user's orders.
+
+In CreateOrder method in OrderService I used transaction to make sure that there will not be
+a situation where order will be created but products will not be add to that order.
+If an error occurs, whole transaction is rollbacked and no data in database is changed.
+
 Checkout feature is available only to authorized users, 
 that's why I created RequireAuth component in React to prevent unauthorized access.
+
+Admin can change status of orders. 
+There are 4 available statuses to choose: Pending, Accepted, Rejected and Completed.
 
 
 
@@ -57,6 +73,13 @@ that's why I created RequireAuth component in React to prevent unauthorized acce
 ![second step](https://github.com/MichalOstrowskiSolbeg/Task5/blob/main/screenshot2.png?raw=true)
 
 ![third step](https://github.com/MichalOstrowskiSolbeg/Task5/blob/main/screenshot3.png?raw=true)
+## Login credentials
+
+Login credentials for admin account: (admin, admin)
+
+Login credentials for client account: (client1, client1)
+
+
 ## Database
 
 Database is hosted on https://freeasphosting.net/
@@ -65,4 +88,4 @@ I added non-clustered index on "username" column, because every login request re
 Also, I added unique constraint on that column.
 
 
-![Database](https://github.com/MichalOstrowskiSolbeg/Task5/blob/main/Database.png?raw=true)
+![Database](https://github.com/MichalOstrowskiSolbeg/Task5/blob/main/Database2.png?raw=true)
