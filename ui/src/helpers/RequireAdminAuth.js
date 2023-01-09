@@ -5,7 +5,7 @@ import { isAdmin,  } from "./UserHelper";
 function RequireAdminAuth() {
     if (!isAdmin()) {
         return <Navigate to={{
-            pathname: "/login"
+            pathname: "/"
         }} />;
     }
 

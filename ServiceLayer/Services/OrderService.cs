@@ -42,6 +42,17 @@ namespace ServiceLayer.Services
             return _mapper.Map<OrderDetailsResponse>(await _repository.GetOrder(id));
         }
 
+        public async Task<OrderDetailsResponse> GetOrderDetails(int orderId, int userId)
+        {
+            var order = await _repository.GetOrder(orderId);
+            if(order.UserId != userId)
+            {
+                throw new Exception("You don't have access to this element");
+            }
+
+            return _mapper.Map<OrderDetailsResponse>(order);
+        }
+
         public async Task CreateOrder(List<ShoppingRequest> request, int userId)
         {
             if(request == null || request.Count == 0)

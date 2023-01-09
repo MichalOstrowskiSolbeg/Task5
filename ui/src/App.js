@@ -83,10 +83,10 @@ export default class App extends Component {
 
                     <Route element={<RequireAuth />}>
                         <Route path="/order" element={<OrderList />} />
-                        <Route path="/admin_panel" element={<OrderList />} />
                         <Route path="/order/details/:Id" element={<OrderDetails />} />
                     </Route>
                     <Route element={<RequireAdminAuth />}>
+                        <Route path="/admin_panel" element={<OrderList />} />
                         <Route path="/order/edit/:Id" element={<OrderEditForm />} />
                     </Route>
 

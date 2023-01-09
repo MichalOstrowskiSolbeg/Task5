@@ -4,6 +4,7 @@ import { isAdmin, isClient } from "../../helpers/UserHelper";
 
 function ProductListTable(props) {
     const data = props.data.Results
+    const currentPage = props.data.PageIndex;
     const pageCount = props.data.PageCount
     const [products, setProducts] = useState([]);
     const [wordEntered, setWordEntered] = useState('');
@@ -11,7 +12,6 @@ function ProductListTable(props) {
     const [maxValue, setMaxValue] = useState(999);
     const [selectedBrand, setSelectedBrand] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
-    const [currentPage, setPage] = useState(props.data.PageIndex);
 
     useEffect(() => {
         const stored = (localStorage.getItem('cart'));
@@ -54,35 +54,34 @@ function ProductListTable(props) {
     const handleSearchFilter = (event) => {
         const searchWord = event.target.value;
         setWordEntered(searchWord);
-        props.load(currentPage, searchWord, selectedBrand, selectedCategory, minValue, maxValue)
+        props.load(1, searchWord, selectedBrand, selectedCategory, minValue, maxValue)
     };
 
     const handleFilterMinPrice = (event) => {
         const searchValue = event.target.value;
         setMinValue(searchValue);
-        props.load(currentPage, wordEntered, selectedBrand, selectedCategory, searchValue, maxValue)
+        props.load(1, wordEntered, selectedBrand, selectedCategory, searchValue, maxValue)
     };
 
     const handleFilterMaxPrice = (event) => {
         const searchValue = event.target.value;
         setMaxValue(searchValue);
-        props.load(currentPage, wordEntered, selectedBrand, selectedCategory, minValue, searchValue)
+        props.load(1, wordEntered, selectedBrand, selectedCategory, minValue, searchValue)
     };
 
     const handleBrandChange = (event) => {
         const brand = event.target.value;
         setSelectedBrand(brand);
-        props.load(currentPage, wordEntered, brand, selectedCategory, minValue, maxValue)
+        props.load(1, wordEntered, brand, selectedCategory, minValue, maxValue)
     }
 
     const handleCategoryChange = (event) => {
         const category = event.target.value;
         setSelectedCategory(category);
-        props.load(currentPage, wordEntered, selectedBrand, category, minValue, maxValue)
+        props.load(1, wordEntered, selectedBrand, category, minValue, maxValue)
     }
 
     const handlePageChange = (page) => {
-        setPage(page)
         props.load(page, wordEntered, selectedBrand, selectedCategory, minValue, maxValue)
     }
 

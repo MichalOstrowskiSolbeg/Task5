@@ -20,6 +20,8 @@ namespace ServiceLayer.Interfaces
 
         Task<OrderDetailsResponse> GetOrderDetails(int id);
 
+        Task<OrderDetailsResponse> GetOrderDetails(int orderId, int userId);
+
         Task ChangeOrderStatus(int id, OrderStatus status);
     }
 }

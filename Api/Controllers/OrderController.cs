@@ -40,7 +40,11 @@ namespace Api.Controllers
         {
             try
             {
-                return Ok(await _service.GetOrderDetails(id));
+                if (IsAdmin())
+                {
+                    return Ok(await _service.GetOrderDetails(id));
+                }
+                return Ok(await _service.GetOrderDetails(id, GetUserId()));
             }
             catch (Exception ex)
             {
